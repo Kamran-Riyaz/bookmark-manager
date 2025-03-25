@@ -3,15 +3,11 @@ import BookmarkForm from "./components/BookmarkForm";
 import BookmarkList from "./components/BookmarkList";
 import Filter from "./components/Filter";
 
-interface Bookmark {
-  title: string;
-  url: string;
-  category: string;
-  dateAdded: string;
-}
+// Removed local Bookmark interface and import it from a shared file
+import { Bookmark } from "./types/Bookmark";
 
 const App: React.FC = () => {
-  // Load bookmarks from localStorage on mount
+  // State for bookmarks, search, category, and dark mode
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
     const savedBookmarks = localStorage.getItem("bookmarks");
     return savedBookmarks ? JSON.parse(savedBookmarks) : [];
@@ -39,7 +35,7 @@ const App: React.FC = () => {
       (b) =>
         b.title.toLowerCase().includes(search.toLowerCase()) &&
         (category === "" || b.category === category)
-    )
+    ) // Ensure proper grouping of conditions
     .sort(
       (a, b) =>
         new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
@@ -51,6 +47,7 @@ const App: React.FC = () => {
         darkMode ? "bg-dark text-white" : "bg-light text-dark"
       }`}
     >
+      {/* Header Section */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>Bookmark Manager</h1>
         <button
@@ -60,13 +57,19 @@ const App: React.FC = () => {
           {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
         </button>
       </div>
+
+      {/* Bookmark Form */}
       <BookmarkForm setBookmarks={setBookmarks} />
+
+      {/* Filter Section */}
       <Filter
         search={search}
         setSearch={setSearch}
         category={category}
         setCategory={setCategory}
       />
+
+      {/* Bookmark List */}
       <BookmarkList bookmarks={filteredBookmarks} setBookmarks={setBookmarks} />
     </div>
   );

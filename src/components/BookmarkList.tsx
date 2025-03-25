@@ -46,16 +46,32 @@ const BookmarkList: React.FC<BookmarkListProps> = ({ bookmarks, setBookmarks }) 
         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
           {editingIndex === index ? (
             <div className="w-100">
-              <input className="form-control mb-1" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
-              <input className="form-control mb-1" value={editUrl} onChange={(e) => setEditUrl(e.target.value)} />
-              <select className="form-control mb-1" value={editCategory} onChange={(e) => setEditCategory(e.target.value)}>
-                <option>General</option>
-                <option>Work</option>
-                <option>Personal</option>
-                <option>Study</option>
+              <input
+                className="form-control mb-1"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+              />
+              <input
+                className="form-control mb-1"
+                value={editUrl}
+                onChange={(e) => setEditUrl(e.target.value)}
+              />
+              <select
+                className="form-control mb-1"
+                value={editCategory}
+                onChange={(e) => setEditCategory(e.target.value)}
+              >
+                <option value="General">General</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Study">Study</option>
               </select>
-              <button className="btn btn-success btn-sm me-2" onClick={handleSave}>Save</button>
-              <button className="btn btn-secondary btn-sm" onClick={() => setEditingIndex(null)}>Cancel</button>
+              <button className="btn btn-success btn-sm me-2" onClick={handleSave}>
+                Save
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setEditingIndex(null)}>
+                Cancel
+              </button>
             </div>
           ) : (
             <>
