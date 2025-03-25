@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid"; // Importing uuid for unique ID generation
-
-interface Bookmark {
-  id: string;
-  title: string;
-  url: string;
-  category: string;
-  dateAdded: string;
-}
+import { v4 as uuidv4 } from "uuid";
+import { Bookmark, ISODateString } from "../types/Bookmark"; // Import shared types
 
 interface BookmarkFormProps {
   setBookmarks: React.Dispatch<React.SetStateAction<Bookmark[]>>;
@@ -26,11 +19,11 @@ const BookmarkForm: React.FC<BookmarkFormProps> = ({ setBookmarks }) => {
     e.preventDefault();
 
     const newBookmark: Bookmark = {
-      id: uuidv4(), // Using uuid to generate a unique ID
+      id: uuidv4(),
       title,
       url,
       category,
-      dateAdded: new Date().toISOString(),
+      dateAdded: new Date().toISOString() as ISODateString, // Ensure ISODateString
     };
 
     setBookmarks((prev) => [newBookmark, ...prev]);

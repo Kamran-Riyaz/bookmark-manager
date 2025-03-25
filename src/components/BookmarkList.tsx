@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { FaTrash, FaEdit, FaExternalLinkAlt } from "react-icons/fa";
-
-interface Bookmark {
-  title: string;
-  url: string;
-  category: string;
-}
+import { Bookmark } from "../types/Bookmark"; // Import shared Bookmark type
 
 interface BookmarkListProps {
   bookmarks: Bookmark[];
@@ -33,7 +28,9 @@ const BookmarkList: React.FC<BookmarkListProps> = ({ bookmarks, setBookmarks }) 
     if (editingIndex !== null) {
       setBookmarks((prev) =>
         prev.map((bookmark, index) =>
-          index === editingIndex ? { title: editTitle, url: editUrl, category: editCategory } : bookmark
+          index === editingIndex
+            ? { ...bookmark, title: editTitle, url: editUrl, category: editCategory }
+            : bookmark
         )
       );
       setEditingIndex(null);

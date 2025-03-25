@@ -4,13 +4,23 @@ import BookmarkList from "./components/BookmarkList";
 import Filter from "./components/Filter";
 
 // Removed local Bookmark interface and import it from a shared file
-import { Bookmark } from "./types/Bookmark";
+import { Bookmark, ISODateString } from "./types/Bookmark";
 
 const App: React.FC = () => {
   // State for bookmarks, search, category, and dark mode
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
     const savedBookmarks = localStorage.getItem("bookmarks");
-    return savedBookmarks ? JSON.parse(savedBookmarks) : [];
+    if (!savedBookmarks) return [];
+
+    try {
+      const parsedBookmarks: Bookmark[] = JSON.parse(savedBookmarks);
+      return parsedBookmarks.map((b) => ({
+        ...b,
+        dateAdded: b.dateAdded as ISODateString, // Ensure type consistency
+      }));
+    } catch {
+      return [];
+    }
   });
 
   const [search, setSearch] = useState("");
@@ -59,7 +69,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Bookmark Form */}
-      <BookmarkForm setBookmarks={setBookmarks} />
+      <BookmarkForm setBookmarks={setBookmarks as React.Dispatch<React.SetStateAction<Bookmark[]>>} />
 
       {/* Filter Section */}
       <Filter
@@ -70,7 +80,7 @@ const App: React.FC = () => {
       />
 
       {/* Bookmark List */}
-      <BookmarkList bookmarks={filteredBookmarks} setBookmarks={setBookmarks} />
+      <BookmarkList bookmarks={filteredBookmarks} setBookmarks={setBookmarks as React.Dispatch<React.SetStateAction<Bookmark[]>>} />
     </div>
   );
 };
