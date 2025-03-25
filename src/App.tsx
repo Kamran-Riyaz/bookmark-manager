@@ -11,7 +11,7 @@ interface Bookmark {
 }
 
 const App: React.FC = () => {
-  // Load bookmarks directly in useState (Fixes reload issue)
+  // Load bookmarks from localStorage on mount
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
     const savedBookmarks = localStorage.getItem("bookmarks");
     return savedBookmarks ? JSON.parse(savedBookmarks) : [];
@@ -23,16 +23,17 @@ const App: React.FC = () => {
     return localStorage.getItem("darkMode") === "true";
   });
 
-  // Save dark mode preference
+  // Save dark mode preference to localStorage
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode.toString());
   }, [darkMode]);
 
-  //Save bookmarks to localStorage whenever they change
+  // Save bookmarks to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
   }, [bookmarks]);
 
+  // Filter and sort bookmarks
   const filteredBookmarks = bookmarks
     .filter(
       (b) =>

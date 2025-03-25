@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 
+interface Bookmark {
+  title: string;
+  url: string;
+  category: string;
+  dateAdded: string;
+}
+
 interface BookmarkFormProps {
-  setBookmarks: React.Dispatch<React.SetStateAction<{ title: string; url: string; category: string }[]>>;
+  setBookmarks: React.Dispatch<React.SetStateAction<Bookmark[]>>;
 }
 
 const BookmarkForm: React.FC<BookmarkFormProps> = ({ setBookmarks }) => {
@@ -15,8 +22,10 @@ const BookmarkForm: React.FC<BookmarkFormProps> = ({ setBookmarks }) => {
       { title, url, category, dateAdded: new Date().toISOString() },
       ...prev, // Newest bookmarks appear first
     ]);
+    setTitle("");
+    setUrl("");
+    setCategory("General");
   };
-  
 
   return (
     <form onSubmit={handleSubmit} className="mb-4">
